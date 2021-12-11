@@ -1,35 +1,39 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
+import fontSize from '@global-styles/font-sizes';
+import margin from '@global-styles/margins';
+
+import NumberInput from '@ui-components/NumberInput';
+
 export const StyledCounter = styled.div`
   display: grid;
   grid-template:
     "heading   heading   heading  "
-    "decrement amount    increment" 2.5rem / 2.5rem minmax(3rem, max-content) 2.5rem;
+    "decrement amount    increment" min-content / min-content minmax(min-content, 5rem) min-content;
   place-items: center;
   justify-content: center;
-  gap: 0.5rem 2rem;
+  gap: ${margin[500]} ${margin[400]};
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: calc(2 * ${margin[400]}) ${margin[400]};
   border-radius: 0.5rem;
   background-color: #f0eff4;
   color: #6b61ff;
-  font-size: 2rem;
 
   @media (max-width: 25rem) {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
   }
 `;
 
 export const Amount = styled.div`
   grid-area: amount;
+  font-size: ${fontSize[500]};
 `;
 
 export const Heading = styled.h2`
   grid-area: heading;
-  font-size: 2.5rem;
+  font-size: ${fontSize[700]};
 `;
 
 interface ButtonProps {
@@ -39,21 +43,18 @@ interface ButtonProps {
 export const Button = styled.button<ButtonProps>`
   grid-area: ${({ text }) => text == '+' ? 'increment' : 'decrement'};
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 1em;
+  height: 1em;
+  max-width: 100%;
+  max-height: 100%;
   border: none;
   border-radius: 0.25em;
   cursor: pointer;
   background-color: #6b61ff;
-  font-size: 3rem;
+  font-size: ${fontSize[700]};
   color: #f0eff4;
-  filter: drop-shadow(0 0.1em 0 #8ecde6);
+  filter: drop-shadow(0 0.15em 0 #8ecde6);
   transition: transform 50ms, filter 50ms;
-
-  @media(max-width: 25rem) {
-    width: 3rem;
-    height: 3rem;
-  }
 
   &::before {
     content: '${({ text }) => text ?? ''}';
@@ -68,4 +69,11 @@ export const Button = styled.button<ButtonProps>`
     filter: drop-shadow(0 0em 0 #8ecde6);
     background-color: ${darken(0.1, '#6b61ff')};
   }
+`;
+
+export const ChangeByAmount = styled(NumberInput)`
+  grid-area: change-by;
+  width: 100%;
+  height: 100%;
+  font-size: ${fontSize[500]};
 `;

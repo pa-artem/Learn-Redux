@@ -68,6 +68,8 @@ module.exports = {
         '@app': './src/app',
         '@features': './src/features',
         '@hooks': './src/hooks',
+        '@ui-components': './src/ui-components',
+        '@global-styles': './src/global-styles',
       },
     },
   },

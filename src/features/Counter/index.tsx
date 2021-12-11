@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@app/store';
 import useAction from '@hooks/useAction';
 import { increment, decrement } from './slice';
-import { Amount, Button, StyledCounter, Heading } from './styles';
+import { Amount, Button, StyledCounter, Heading, ChangeByAmount } from './styles';
 
 function Counter() {
   const count = useSelector((state: RootState) => state.counter.value);

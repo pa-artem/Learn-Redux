@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import App from '@app/App';
 import store from '@app/store';
 
-import GlobalStyles from './global-styles';
+import GlobalStyles from './global-styles/base';
 
 render(
   <>
