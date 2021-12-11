@@ -1,10 +1,11 @@
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import { darken } from 'polished';
 
 import fontSize from '@global-styles/font-sizes';
 import margin from '@global-styles/margins';
 
 import NumberInput from '@ui-components/NumberInput';
+import themeVariables from '@global-styles/themes';
 
 export const StyledCounter = styled.div`
   display: grid;
@@ -50,7 +51,7 @@ export const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: 0.25em;
   cursor: pointer;
-  background-color: #6b61ff;
+  background-color: ${themeVariables.primary[400].variable};
   font-size: ${fontSize[700]};
   color: #f0eff4;
   filter: drop-shadow(0 0.15em 0 #8ecde6);

@@ -1,6 +1,4 @@
-import { ValueMnemonic } from './breakpoints';
-
-const defaultTheme = {
+const theme = {
   neutral: {
     100: '#f0eff4',
   },
@@ -14,36 +12,43 @@ const defaultTheme = {
   },
 };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const defaultThemeVariables: any = {};
-Object.keys(defaultTheme).forEach((colorType) => {
-  defaultThemeVariables[colorType] = {};
-  Object.keys((defaultTheme as any)[colorType]).forEach((mnemonic) => {
+type KeysOfUnion<T> = T extends T ? keyof T : never;
+
+export type MnemonicValue = '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
+
+type ColorType = keyof typeof theme;
+type ColorVariableDescription = { value: string; variable: string; name: string };
+
+const themeVariables: Record<ColorType, Record<MnemonicValue, ColorVariableDescription>> = <any>{};
+
+(Object.keys(theme) as ColorType[]).forEach((colorType) => {
+  type ColorMnemonic = KeysOfUnion<typeof theme[typeof colorType]>;
+
+  themeVariables[colorType] = <Record<MnemonicValue, ColorVariableDescription>>{};
+  (Object.keys(theme[colorType]) as unknown as ColorMnemonic[]).forEach((mnemonic) => {
     const name = `--color-${colorType}-${mnemonic}`;
 
-    defaultThemeVariables[colorType][mnemonic] = {
-      value: (defaultTheme as any)[colorType][mnemonic],
+    themeVariables[colorType][mnemonic] = {
+      value: (theme[colorType] as Record<MnemonicValue, string>)[mnemonic],
       name,
       variable: `var(${name})`,
     };
   });
 });
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
-const themeVariables = Object.keys(defaultThemeVariables)
+const themeVariablesCSS = (Object.keys(themeVariables) as ColorType[])
   .flatMap((type) =>
-    Object.keys(defaultThemeVariables[type]).map(
-      (weight) =>
-        `${defaultThemeVariables[type][weight].name}: ${defaultThemeVariables[type][weight].value};`,
+    (Object.keys(themeVariables[type]) as MnemonicValue[]).map(
+      (weight) => `${themeVariables[type][weight].name}: ${themeVariables[type][weight].value};`,
     ),
   )
   .join('');
 
-console.log(themeVariables);
+export { themeVariablesCSS };
 
-export { themeVariables };
-
-export default defaultThemeVariables as Record<
-  keyof typeof defaultTheme,
-  Record<ValueMnemonic, { value: string; variable: string; name: string }>
->;
+export default themeVariables as {
+  [ColorType in keyof typeof theme]: Record<
+    keyof typeof theme[ColorType],
+    ColorVariableDescription
+  >;
+};

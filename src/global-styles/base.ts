@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 import { fontSizesValues } from './font-sizes';
 import { customPropertiesBetween } from './breakpoints';
-import defaultTheme, { themeVariables } from './themes';
+import defaultTheme, { themeVariablesCSS } from './themes';
 import fonts from './fonts';
 
 export default createGlobalStyle`
@@ -17,7 +17,7 @@ export default createGlobalStyle`
   ${customPropertiesBetween('font-size', fontSizesValues)}
 
   :root {
-    ${themeVariables}
+    ${themeVariablesCSS}
   }
 
   body {
