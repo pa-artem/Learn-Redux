@@ -12,7 +12,9 @@
     "module": "ESNext",
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["src/*"]
+      "@app/*": ["src/app/*"],
+      "@features/*": ["src/features/*"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src"]

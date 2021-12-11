@@ -46,11 +46,13 @@ module.exports = {
     // use @typescript-eslint/no-shadow instead
     'no-shadow': 'off',
 
+    // conflicts with redux toolkit and immer.js
+    'no-param-reassign': 'off',
+
     // a bug in airbnb 19.0.2 eslint config
     'react/function-component-definition': [
       2,
       {
-        namedComponents: 'arrow-function',
         unnamedComponents: 'arrow-function',
       },
     ],
@@ -63,7 +65,9 @@ module.exports = {
       },
       typescript: {
         alwaysTryTypes: true,
-        '@app': './src',
+        '@app': './src/app',
+        '@features': './src/features',
+        '@hooks': './src/hooks',
       },
     },
   },

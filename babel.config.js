@@ -1,4 +1,5 @@
 const plugins = [
+  'babel-plugin-styled-components',
   [
     '@babel/plugin-transform-runtime',
     {
@@ -12,7 +13,9 @@ const plugins = [
     'module-resolver',
     {
       alias: {
-        '@app': './src',
+        '@app': './src/app',
+        '@features': './src/features',
+        '@hooks': './src/hooks',
       },
     },
   ],
