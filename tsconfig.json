@@ -16,7 +16,8 @@
       "@features/*": ["src/features/*"],
       "@hooks/*": ["src/hooks/*"],
       "@ui-components/*": ["src/ui-components/*"],
-      "@global-styles/*": ["src/global-styles/*"]
+      "@global-styles/*": ["src/global-styles/*"],
+      "@util/*": ["src/util/*"]
     }
   },
   "include": ["src"]

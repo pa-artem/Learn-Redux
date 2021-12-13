@@ -1,16 +1,29 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { useCallback } from 'react';
 
-import { RootState } from '@app/store';
-import useAction from '@hooks/useAction';
-import { increment, decrement } from './slice';
-import { Amount, Button, StyledCounter, Heading, ChangeByAmount } from './styles';
+import { StateType, Action } from '@app/store';
+import { Amount, Button, StyledCounter, Heading } from './styles';
+import { changeByAmountAsync } from './slice';
 
 function Counter() {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
+  const count = useSelector<StateType, number>((state) => state.counter.value);
+  const dispatch: ThunkDispatch<StateType, unknown, Action> = useDispatch();
 
-  const onDecrementClick = useAction(dispatch, decrement);
-  const onIncrementClick = useAction(dispatch, increment);
+  const onDecrementClick = useCallback(
+    () =>
+      changeByAmountAsync(dispatch)({ amount: -5, delay: 750 }).then((result) =>
+        console.log('Result from promise returned from dispatch', result),
+      ),
+    [dispatch],
+  );
+  const onIncrementClick = useCallback(
+    () =>
+      changeByAmountAsync(dispatch)({ amount: 5, delay: 750 }).then((result) =>
+        console.log('Result from promise returned from dispatch', result),
+      ),
+    [dispatch],
+  );
 
   return (
     <StyledCounter>

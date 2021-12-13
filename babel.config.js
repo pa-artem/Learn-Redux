@@ -18,6 +18,7 @@ const plugins = [
         '@hooks': './src/hooks',
         '@ui-components': './src/ui-components',
         '@global-styles': './src/global-styles',
+        '@util': './src/util',
       },
     },
   ],
