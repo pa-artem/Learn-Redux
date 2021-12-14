@@ -1,4 +1,4 @@
-import styled, { ThemeContext } from 'styled-components';
+import styled from 'styled-components';
 import { darken } from 'polished';
 
 import fontSize from '@global-styles/font-sizes';
