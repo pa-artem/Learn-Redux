@@ -1,10 +1,16 @@
 import { between } from 'polished';
 
-export type Breakpoint = 'smallest' | 'small' | 'medium' | 'large';
 export type ValueMnemonic = '100' | '200' | '300' | '400' | '500' | '600' | '700' | '800' | '900';
 
+function* valueMnemonics(): Generator<ValueMnemonic> {
+  for (let i = 0; i < 9; i += 1) {
+    yield String((i + 1) * 100) as ValueMnemonic;
+  }
+}
+
+export type Breakpoint = 'smallest' | 'small' | 'medium' | 'large';
+
 type BreakpointsMap = Record<Breakpoint, { value: string; next?: Breakpoint }>;
-export type ValuesMap = Record<Breakpoint, Partial<Record<ValueMnemonic, string>>>;
 
 export const breakpoints: BreakpointsMap = {
   smallest: { value: '17.5rem', next: 'small' },
@@ -29,6 +35,8 @@ export function forEachBreakpoint(bodyCallback: BodyCallback): string {
     })
     .join('');
 }
+
+export type ValuesMap = Record<Breakpoint, Partial<Record<ValueMnemonic, string>>>;
 
 /**
  * Generates custom properties with media queries interpolated by polished.between.
@@ -62,21 +70,14 @@ export function customPropertiesBetween(name: string, valuesMap: ValuesMap): str
   );
 }
 
-function* valueMnemonics(): Generator<string> {
-  for (let i = 0; i < 9; i += 1) {
-    yield String((i + 1) * 100);
-  }
-}
-
 /**
  * Takes a table of values and fills any missing values.
  */
 export function fillValuesMap(valuesMap: ValuesMap, defaultValue: string): ValuesMap {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const filledValuesMap: any = {};
+  const filledValuesMap: Record<Breakpoint, Record<ValueMnemonic, string>> = <never>{};
 
   (Object.keys(breakpoints) as Breakpoint[]).forEach((breakpoint) => {
-    filledValuesMap[breakpoint] = {};
+    filledValuesMap[breakpoint] = <never>{};
     const presentSizes = Object.keys(valuesMap[breakpoint]) as ValueMnemonic[];
     if (presentSizes.length == 0) {
       for (const mnemonic of valueMnemonics()) {
@@ -98,7 +99,8 @@ export function fillValuesMap(valuesMap: ValuesMap, defaultValue: string): Value
             candidate = presentSize;
           }
         }
-        filledValuesMap[breakpoint][mnemonic] = valuesMap[breakpoint][candidate];
+        const candidateValue = valuesMap[breakpoint][candidate];
+        filledValuesMap[breakpoint][mnemonic] = candidateValue ?? defaultValue;
       }
     }
   });
@@ -107,12 +109,10 @@ export function fillValuesMap(valuesMap: ValuesMap, defaultValue: string): Value
 }
 
 export function customPropertiesNames(name: string): Record<ValueMnemonic, string> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const fontSizeRaw: any = {};
-
-  for (let i = 0; i < 9; i += 1) {
-    fontSizeRaw[String((i + 1) * 100)] = `var(--${name}-${(i + 1) * 100})`;
+  const fontSizeRaw: Record<ValueMnemonic, string> = <never>{};
+  for (const mnemonic of valueMnemonics()) {
+    fontSizeRaw[mnemonic] = `var(--${name}-${mnemonic})`;
   }
 
-  return fontSizeRaw as Record<ValueMnemonic, string>;
+  return fontSizeRaw;
 }

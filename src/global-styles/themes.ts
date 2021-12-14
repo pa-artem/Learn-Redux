@@ -19,7 +19,8 @@ export type MnemonicValue = '100' | '200' | '300' | '400' | '500' | '600' | '700
 type ColorType = keyof typeof theme;
 type ColorVariableDescription = { value: string; variable: string; name: string };
 
-const themeVariables: Record<ColorType, Record<MnemonicValue, ColorVariableDescription>> = <any>{};
+const themeVariables: Record<ColorType, Record<MnemonicValue, ColorVariableDescription>> =
+  <never>{};
 
 (Object.keys(theme) as ColorType[]).forEach((colorType) => {
   type ColorMnemonic = KeysOfUnion<typeof theme[typeof colorType]>;
